@@ -8,6 +8,8 @@ import AppConfig from "@/static/app.config";
 
 import "@/scss/global.scss";
 import HeaderComponent from "./layout/header/header.component";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const space_grotesk = Space_Grotesk({
   variable: "--font-grotesk",
@@ -38,6 +40,7 @@ export default function RootLayout({
       <body className={space_grotesk.variable}>
         <ContextComponent>
           <AppInit>{children}</AppInit>
+          <ToastContainer />
         </ContextComponent>
       </body>
     </html>

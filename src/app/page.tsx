@@ -41,9 +41,9 @@ export default function Home() {
       }, stepTime);
     };
 
-    animateValue(0, 66, 4000, setRelocationCount);
-    animateValue(0, 799, 1000, setClientsCount);
-    animateValue(0, 982, 1000, setContainersCount);
+    animateValue(0, 139, 3000, setRelocationCount);
+    animateValue(0, 799, 500, setClientsCount);
+    animateValue(0, 982, 500, setContainersCount);
   }, []);
 
   return (
