@@ -45,7 +45,7 @@ export default function AppInit({ children }: AppInitProps) {
             className="rounded-full h-28 w-28"
           />
         </div> */}
-        <div
+        {/* <div
           aria-label="Loading..."
           role="status"
           className="flex items-center space-x-2"
@@ -128,7 +128,7 @@ export default function AppInit({ children }: AppInitProps) {
             ></line>
           </svg>
           <span className="text-4xl font-medium text-gray-500">Loading...</span>
-        </div>
+        </div> */}
       </div>
     );
   }

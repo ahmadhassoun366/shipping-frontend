@@ -10,12 +10,11 @@ import { toast } from "react-toastify";
 import AuthService from "@/shared/services/authentication/authentication.service";
 import { useContext } from "react";
 import AuthenticationSvcContext from "@/shared/services/authentication/authentication.context";
+import { useRouter } from "next/navigation";
 import ROUTES from "@/static/router.data";
-import { useRouter } from 'next/navigation'
 
 export default function SignIn() {
-  const router = useRouter()
-
+  const router = useRouter();
   const authService = useContext<AuthService>(AuthenticationSvcContext);
   const formik = useFormik({
     initialValues: {
@@ -31,27 +30,38 @@ export default function SignIn() {
     }),
     onSubmit: async (values) => {
       try {
+        // Step 1: Perform the actual HTTP request via QueryApi
         const response = await QueryApi.signin(values.email, values.password);
-        const test = await authService.login({
-          email: values.email,
-          password: values.password,
-        });
+        console.log("Sign in Response:", response);
 
-        console.log("Test:", test);
+        // Assuming the response contains the token and user type necessary for session management
+        if (response && response.data.token && response.data.type) {
+          // Step 2: Use AuthService to manage session with the received token
+          authService.login(response.data.token, response.data.type);
 
-        console.log("Sign in Success:", response);
-        toast.success("Success Notification !", {
-          position: "top-right",
-          theme: "dark",
-        });
+          // Optional: Log success or perform additional tasks
+          console.log("Sign in Success:", response);
+          toast.success("Signed in successfully!", {
+            position: "top-right",
+            theme: "dark",
+          });
+
+          // Step 3: Redirect to dashboard or another route
+          router.push(ROUTES.dashboard);
+        } else {
+          throw new Error("Invalid login response");
+        }
       } catch (error) {
+        // Handle errors from either the sign-in request or credential handling
         console.error("Sign in Error:", error);
-        toast.error("Error Notification !", {
-          position: "top-right",
-          theme: "dark",
-        });
+        toast.error(
+          "Failed to sign in. Please check your credentials and try again.",
+          {
+            position: "top-right",
+            theme: "dark",
+          }
+        );
       }
-      router.push(ROUTES.dashboard);
     },
   });
   return (
