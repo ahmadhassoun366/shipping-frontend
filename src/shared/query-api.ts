@@ -1,19 +1,9 @@
 import axios, { type AxiosResponse } from "axios";
 
 import api from "./api";
+import { get } from "http";
 
 const QueryApi = {
-  balance: async function fetchBalance(address: string) {
-    const res = await axios({
-      method: "get",
-      url: api.user.balance(address),
-    });
-
-    return {
-      balance: res.data.balance,
-      balanceUsdValue: res.data.balanceUsdValue,
-    };
-  },
   signup: async function signupUser(
     name: string,
     email: string,
@@ -43,6 +33,47 @@ const QueryApi = {
       },
     });
 
+    return res;
+  },
+  getShipments: async function getShipments(userId: string, token: string) {
+    const res = await axios({
+      method: "get",
+      url: api.Customer.shipments(userId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
+
+  createShipment: async function createShipment(shipment: any, token: string) {
+    const res = await axios({
+      method: "post",
+      url: api.Customer.createShipment(),
+      data: shipment,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
+  getShipment: async function getShipment(shipmentId: string, token: string) {
+    const res = await axios({
+      method: "get",
+      url: api.Customer.getShipment(),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
+
+  // Receivers
+  getReceivers: async function getReceivers() {
+    const res = await axios({
+      method: "get",
+      url: api.Receiver.getReceivers(),
+    });
     return res;
   },
 };

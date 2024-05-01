@@ -5,6 +5,7 @@ export type UserResponse = {
     password: string;  // Note: Storing password like this is for demonstration. In practice, passwords should not be handled on the client-side like this after signup/login.
     type: UserType;
     token: string;     // JWT Token for authenticating further requests
+    id: string
 }
 
 // Enum for user types

@@ -2,13 +2,14 @@ import { UserType } from "./authentication.type";
 
 const tokenKey = "auth_token";
 const userTypeKey = "user_type";
+const userId = "user_id";
 
 export default class AuthService {
   private _token: string | null = null;
   private _userType: UserType | null = null;
-
+  private _id: string | null = null;
   constructor() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       this.loadCredentials();
     }
   }
@@ -17,13 +18,15 @@ export default class AuthService {
   private loadCredentials() {
     this._token = localStorage.getItem(tokenKey);
     this._userType = localStorage.getItem(userTypeKey) as UserType | null;
+    this._id = localStorage.getItem(userId);
   }
 
   // Save the token and user type to local storage, only in client-side
-  public saveCredentials(token: string, userType: UserType) {
-    if (typeof window !== 'undefined') {
+  public saveCredentials(token: string, userType: UserType, id: string) {
+    if (typeof window !== "undefined") {
       localStorage.setItem(tokenKey, token);
       localStorage.setItem(userTypeKey, userType);
+      localStorage.setItem(userId, id);
       this._token = token;
       this._userType = userType;
     }
@@ -31,17 +34,23 @@ export default class AuthService {
 
   // Clear the token and user type from local storage, only in client-side
   public clearCredentials() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.removeItem(tokenKey);
       localStorage.removeItem(userTypeKey);
+      localStorage.removeITem(userId);
     }
     this._token = null;
     this._userType = null;
+    this._id = null;
   }
 
   // Handle the actual login using external response data
-  public async login(token: string, userType: UserType): Promise<void> {
-    this.saveCredentials(token, userType);
+  public async login(
+    token: string,
+    userType: UserType,
+    id: string
+  ): Promise<void> {
+    this.saveCredentials(token, userType, id);
   }
 
   // Logout the user, only in client-side
@@ -59,8 +68,11 @@ export default class AuthService {
     return this._userType;
   }
 
+  get userId(): string | null {
+    return this._id;
+  }
   // Check if the user is logged in
   public isLoggedIn(): boolean {
-    return this._token !== null && typeof window !== 'undefined';
+    return this._token !== null && typeof window !== "undefined";
   }
 }

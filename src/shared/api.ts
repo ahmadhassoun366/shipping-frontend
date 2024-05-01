@@ -1,5 +1,6 @@
-const _baseUrl = process.env.NEXT_BACKEND_API_URL;
+import Receiver from "@/app/dashboard/Receiver/receiver.component";
 
+const _baseUrl = "http://localhost:5000";
 const api = {
   baseUrl: _baseUrl,
 
@@ -12,9 +13,21 @@ const api = {
     // "email": "ahmad@gmail.com",
     // "password": "test",
     // "type": "Importer"}
-    signup: () => `http://localhost:5000/signup`,
-    signin: () => `http://localhost:5000/signin`,
+    signup: () => `${_baseUrl}/signup`,
+    signin: () => `${_baseUrl}/signin`,
+    // 
   },
+
+  Customer: {
+    shipments: (userId:string) => `${_baseUrl}/getShipments?userId=${userId}`,
+    createShipment: () => `${_baseUrl}/createShipment`,
+    getShipment: () => `${_baseUrl}/getShipment`,
+  },
+  Receiver:{
+    createReceiver: () => `${_baseUrl}/createReceiver`,
+    getReceiver: () => `${_baseUrl}/getReceiver`,
+    getReceivers: () => `${_baseUrl}/getReceivers`,
+  }
 };
 
 export default api;
