@@ -42,7 +42,7 @@ const ShipmentForm = () => {
     isLoading,
     error,
   } = useQuery(QUERY_KEYS.GET_RECEIVERS, () => QueryApi.getReceivers());
-  console.log("data", receivers);
+  console.log("receivers", receivers);
 
   return (
     <div>
@@ -75,18 +75,16 @@ const ShipmentForm = () => {
             <Field
               as="select"
               name="receiver_id"
-              onChange={(e: any) =>
-                setFieldValue("receiver_id", e.target.value)
-              }
+              onChange={(e :any) => setFieldValue("receiver_id", e.target.value)}
             >
               <option value="">Select a Receiver</option>
-              {receivers ??
-                [].map((receiver: any) => (
-                  <option key={receiver.id} value={receiver.id}>
+              {receivers &&
+                receivers.data.map((receiver: any) => (
+                  <option key={receiver._id} value={receiver._id}>
                     {receiver.name}
                   </option>
                 ))}
-            </Field>{" "}
+            </Field>
             <Field name="origin" type="text" placeholder="Origin" />
             <Field name="destination" type="text" placeholder="Destination" />
             <Field name="shipmentDate" type="date" />

@@ -29,11 +29,9 @@ export default function Customer() {
   }
 
   return (
-    <div className="">
+    <div>
       <h1>Customer</h1>
       <div className="flex flex-col">
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Error: {(error as Error).message}</p>}
         {data &&
           data.data &&
           data.data.map((shipment: any) => (
@@ -61,7 +59,6 @@ export default function Customer() {
             </div>
           ))}
       </div>
-
       <ShipmentForm />
       <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
@@ -113,29 +110,29 @@ export default function Customer() {
                     {data &&
                       data.data &&
                       data.data.map((shipment: any, index: number) => (
-                        <Link
-                          href={`/dashboard/Customer/order/${shipment._id}`}
+                        <tr
+                          className={
+                            index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                          }
                           key={index}
+                          onClick={() =>
+                            (window.location.href = `/dashboard/Customer/order/${shipment._id}`)
+                          }
+                          style={{ cursor: "pointer" }}
                         >
-                          <tr
-                            className={
-                              index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                            }
-                          >
-                            <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                              {shipment.origin}
-                              Destination: {shipment.destination}
-                            </td>
-                            <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                              {new Date(
-                                shipment.expectedDeliveryDate
-                              ).toLocaleDateString()}
-                            </td>
-                            <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                              {shipment.status}
-                            </td>
-                          </tr>
-                        </Link>
+                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                            {shipment.origin}
+                            Destination: {shipment.destination}
+                          </td>
+                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                            {new Date(
+                              shipment.expectedDeliveryDate
+                            ).toLocaleDateString()}
+                          </td>
+                          <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                            {shipment.status}
+                          </td>
+                        </tr>
                       ))}
                   </tbody>
                 </table>
