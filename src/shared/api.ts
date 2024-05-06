@@ -22,6 +22,9 @@ const api = {
     shipments: (userId:string) => `${_baseUrl}/getShipments?userId=${userId}`,
     createShipment: () => `${_baseUrl}/createShipment`,
     getShipment: () => `${_baseUrl}/getShipment`,
+    deleteShipment: (shipmentId:any) => `${_baseUrl}/deleteShipment/${shipmentId}`,
+    updateShipment: () => `${_baseUrl}/updateShipment/:id`,
+    getShipmentById: (shipmentId:any) => `${_baseUrl}/getShipment/${shipmentId}`,
   },
   Receiver:{
     createReceiver: () => `${_baseUrl}/createReceiver`,

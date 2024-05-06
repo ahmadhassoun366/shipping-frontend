@@ -6,9 +6,10 @@ import { useContext } from "react";
 import AuthService from "@/shared/services/authentication/authentication.service";
 import AuthenticationSvcContext from "@/shared/services/authentication/authentication.context";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Customer() {
+  const router = useRouter();
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   const userId = authSvc.userId;
   console.log("userId", userId);
@@ -19,7 +20,7 @@ export default function Customer() {
     QueryApi.getShipments(userId as string, token as string)
   );
   console.log("data", data);
-
+console.log('userId :', authSvc)
   if (isLoading) {
     return <div>Loading shipments...</div>;
   }
@@ -116,8 +117,7 @@ export default function Customer() {
                           }
                           key={index}
                           onClick={() =>
-                            (window.location.href = `/dashboard/Customer/order/${shipment._id}`)
-                          }
+                            router.push(`/dashboard/Customer/order/${shipment._id}`)                          }
                           style={{ cursor: "pointer" }}
                         >
                           <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">

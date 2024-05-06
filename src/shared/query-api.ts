@@ -67,6 +67,36 @@ const QueryApi = {
     });
     return res;
   },
+  getShipmentById: async function getShipmentById(shipmentId: string, token: string) {
+    const res = await axios({
+      method: "get",
+      url: api.Customer.getShipmentById(shipmentId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
+  updateShipment: async function updateShipment(shipmentId: string, token: string) {
+    const res = await axios({
+      method: "put",
+      url: api.Customer.updateShipment(),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
+  deleteShipment: async function deleteShipment(shipmentId: string, token: string) {
+    const res = await axios({
+      method: "delete",
+      url: api.Customer.deleteShipment(shipmentId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
 
   // Receivers
   getReceivers: async function getReceivers() {
