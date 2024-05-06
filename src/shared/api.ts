@@ -27,7 +27,9 @@ const api = {
     createReceiver: () => `${_baseUrl}/createReceiver`,
     getReceiver: () => `${_baseUrl}/getReceiver`,
     getReceivers: () => `${_baseUrl}/getReceivers`,
-  }
+  },
+  getWarehouses: () => `${_baseUrl}/getWarehouses`,
+  
 };
 
 export default api;

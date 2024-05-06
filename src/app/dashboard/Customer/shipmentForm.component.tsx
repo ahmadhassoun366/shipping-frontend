@@ -14,13 +14,6 @@ const ShipmentSchema = Yup.object().shape({
   receiver_id: Yup.string().required("Receiver ID is required"),
   origin: Yup.string().required("Origin is required"),
   destination: Yup.string().required("Destination is required"),
-  shipmentDate: Yup.date().required("Shipment date is required"),
-  expectedDeliveryDate: Yup.date().required(
-    "Expected delivery date is required"
-  ),
-  status: Yup.string()
-    .oneOf(["Pending", "Completed", "Failed"])
-    .required("Status is required"),
   warehouseID: Yup.string().required("Warehouse ID is required"),
   items: Yup.array().of(
     Yup.object().shape({
@@ -37,25 +30,32 @@ const ShipmentSchema = Yup.object().shape({
 const ShipmentForm = () => {
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   const token = authSvc.token;
+  const id = authSvc?.userId;
+
   const {
     data: receivers,
     isLoading,
     error,
   } = useQuery(QUERY_KEYS.GET_RECEIVERS, () => QueryApi.getReceivers());
-  console.log("receivers", receivers);
+
+  const { data: warehouses } = useQuery(QUERY_KEYS.GET_WAREHOUSES, () =>
+    QueryApi.getWarehouses()
+  );
+
+  const formatDate = (date: any) => {
+    return date.toISOString().split("T")[0];
+  };
 
   return (
     <div>
       <h1>Create Shipment</h1>
       <Formik
         initialValues={{
-          customer_id: "",
+          customer_id: id,
           receiver_id: "",
           origin: "",
           destination: "",
-          shipmentDate: "",
-          expectedDeliveryDate: "",
-          status: "",
+          shipmentDate: formatDate(new Date()),
           warehouseID: "",
           items: [{ name: "", quantity: "", isSensitive: false }],
         }}
@@ -66,16 +66,19 @@ const ShipmentForm = () => {
             values,
             token as string
           );
+          console.log("Create Shipment Response:", response);
+
           actions.setSubmitting(false);
         }}
       >
         {({ setFieldValue, values }) => (
           <Form>
-            <Field name="customer_id" type="text" placeholder="Customer ID" />
             <Field
               as="select"
               name="receiver_id"
-              onChange={(e :any) => setFieldValue("receiver_id", e.target.value)}
+              onChange={(e: any) =>
+                setFieldValue("receiver_id", e.target.value)
+              }
             >
               <option value="">Select a Receiver</option>
               {receivers &&
@@ -87,15 +90,15 @@ const ShipmentForm = () => {
             </Field>
             <Field name="origin" type="text" placeholder="Origin" />
             <Field name="destination" type="text" placeholder="Destination" />
-            <Field name="shipmentDate" type="date" />
-            <Field name="expectedDeliveryDate" type="date" />
-            <Field as="select" name="status">
-              <option value="">Select Status</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-              <option value="Failed">Failed</option>
+            <Field as="select" name="warehouseID">
+              <option value="">Select Warehouse</option>
+              {warehouses &&
+                warehouses.data.map((warehouse: any) => (
+                  <option key={warehouse._id} value={warehouse._id}>
+                    {warehouse.name}
+                  </option>
+                ))}
             </Field>
-            <Field name="warehouseID" type="text" placeholder="Warehouse ID" />
             <FieldArray name="items">
               {({ insert, remove, push }) => (
                 <div>

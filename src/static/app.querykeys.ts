@@ -13,7 +13,9 @@ const QUERY_KEYS = {
   // Receiver
 
   GET_RECEIVERS: "getReceivers",
-
+  
+  // Warehouse
+  GET_WAREHOUSES: "getWarehouses",
 };
 
 export default QUERY_KEYS;

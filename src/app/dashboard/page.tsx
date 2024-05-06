@@ -13,7 +13,8 @@ import Employee from "./Employee/employee.component";
 import Receiver from "./Receiver/receiver.component";
 export default function Page() {
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
-
+  console.log("Auth Service:", authSvc);
+  
   const userType = authSvc.userType;
   console.log("User Type:", userType);
   const handleLogout = () => {

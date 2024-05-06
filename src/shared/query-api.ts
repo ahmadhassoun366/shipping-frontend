@@ -76,6 +76,13 @@ const QueryApi = {
     });
     return res;
   },
+  getWarehouses: async function getWarehouses() {
+    const res = await axios({
+      method: "get",
+      url: api.getWarehouses(),
+    });
+    return res;
+  },
 };
 
 export default QueryApi;

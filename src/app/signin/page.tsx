@@ -38,7 +38,8 @@ export default function SignIn() {
         if (response && response.data.token && response.data.type) {
           // Step 2: Use AuthService to manage session with the received token
           authService.login(response.data.token, response.data.type, response.data.id);
-
+          console.log("authSvc", authService.userId);
+          
           // Optional: Log success or perform additional tasks
           console.log("Sign in Success:", response);
           toast.success("Signed in successfully!", {

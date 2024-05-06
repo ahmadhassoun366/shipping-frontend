@@ -11,15 +11,14 @@ import { useRouter } from "next/router";
 export default function Customer() {
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   const userId = authSvc.userId;
-  console.log("userId", userId);
+
   const token = authSvc.token;
-  console.log("token", token);
 
   const { data, isLoading, error } = useQuery(QUERY_KEYS.GET_SHIPMENTS, () =>
     QueryApi.getShipments(userId as string, token as string)
   );
-  console.log("data", data);
-
+  console.log("Data", data);
+  
   if (isLoading) {
     return <div>Loading shipments...</div>;
   }
