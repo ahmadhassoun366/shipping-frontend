@@ -23,6 +23,16 @@ const ShipmentSchema = Yup.object().shape({
         .integer()
         .required("Quantity is required"),
       isSensitive: Yup.boolean().required("Is sensitive is required"),
+      type: Yup.string()
+        .oneOf([
+          "Electronics",
+          "Clothing",
+          "Furniture",
+          "Pharmaceuticals",
+          "Food",
+          "Other",
+        ])
+        .required("Item type is required"),
     })
   ),
 });
@@ -57,7 +67,7 @@ const ShipmentForm = () => {
           destination: "",
           shipmentDate: formatDate(new Date()),
           warehouseID: "",
-          items: [{ name: "", quantity: "", isSensitive: false }],
+          items: [{ name: "", quantity: 1, isSensitive: false, type: "" }],
         }}
         validationSchema={ShipmentSchema}
         onSubmit={async (values, actions) => {
@@ -67,7 +77,7 @@ const ShipmentForm = () => {
             token as string
           );
           console.log("Create Shipment Response:", response);
-
+          
           actions.setSubmitting(false);
         }}
       >
@@ -114,6 +124,17 @@ const ShipmentForm = () => {
                           placeholder="Quantity"
                           type="number"
                         />
+                        <Field as="select" name={`items.${index}.type`}>
+                          <option value="">Select Type</option>
+                          <option value="Electronics">Electronics</option>
+                          <option value="Clothing">Clothing</option>
+                          <option value="Furniture">Furniture</option>
+                          <option value="Pharmaceuticals">
+                            Pharmaceuticals
+                          </option>
+                          <option value="Food">Food</option>
+                          <option value="Other">Other</option>
+                        </Field>
                         <label>
                           <Field
                             name={`items.${index}.isSensitive`}

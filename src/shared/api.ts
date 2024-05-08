@@ -1,3 +1,4 @@
+import Employee from "@/app/dashboard/Employee/employee.component";
 import Receiver from "@/app/dashboard/Receiver/receiver.component";
 
 const _baseUrl = "http://localhost:5000";
@@ -27,6 +28,9 @@ const api = {
     createReceiver: () => `${_baseUrl}/createReceiver`,
     getReceiver: () => `${_baseUrl}/getReceiver`,
     getReceivers: () => `${_baseUrl}/getReceivers`,
+  },
+  Employee: {
+    updateShipmentStatus: () => `${_baseUrl}/updateStatus`,
   },
   getWarehouses: () => `${_baseUrl}/getWarehouses`,
   

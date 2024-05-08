@@ -29,7 +29,7 @@ export default function SignUP() {
       .required("Confirm password is required"),
     type: yup
       .string()
-      .oneOf(["Customer", "Receiver"], "Type is required")
+      .oneOf(["Customer", "Receiver","Employee"], "Type is required")
       .required("You must select a type"),
   });
 
@@ -163,11 +163,9 @@ export default function SignUP() {
                   onBlur={formik.handleBlur}
                   className="w-full pl-2 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-gray-500"
                 >
-                  <option value="" className="text0">
-                    Select Type
-                  </option>
                   <option value="Customer">Customer</option>
                   <option value="Receiver">Receiver</option>
+                  <option value="Employee">Employee</option>
                 </select>
                 {formik.touched.type && formik.errors.type && (
                   <div className="text-red-500">{formik.errors.type}</div>

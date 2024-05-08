@@ -46,11 +46,14 @@ const QueryApi = {
     return res;
   },
 
-  createShipment: async function createShipment(shipment: any, token: string) {
+  createShipment: async function createShipment(
+    shipmentDetails: any,
+    token: string
+  ) {
     const res = await axios({
       method: "post",
       url: api.Customer.createShipment(),
-      data: shipment,
+      data: shipmentDetails,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -80,6 +83,22 @@ const QueryApi = {
     const res = await axios({
       method: "get",
       url: api.getWarehouses(),
+    });
+    return res;
+  },
+  updateShipmentStatus: async function updateShipmentStatus(
+    newStatus: string,
+    token: string
+  ) {
+    const res = await axios({
+      method: "post",
+      url: api.Employee.updateShipmentStatus(),
+      data: {
+        newStatus,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return res;
   },

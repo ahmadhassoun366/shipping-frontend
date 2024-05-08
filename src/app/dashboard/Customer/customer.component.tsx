@@ -12,13 +12,15 @@ export default function Customer() {
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   const userId = authSvc.userId;
 
-  const token = authSvc.token;
+  const token = authSvc?.token;
+  const id = authSvc?.userId;
+  const type = authSvc?.userType;
 
   const { data, isLoading, error } = useQuery(QUERY_KEYS.GET_SHIPMENTS, () =>
     QueryApi.getShipments(userId as string, token as string)
   );
   console.log("Data", data);
-  
+  const shipments = data?.data || [];
   if (isLoading) {
     return <div>Loading shipments...</div>;
   }
@@ -29,11 +31,12 @@ export default function Customer() {
 
   return (
     <div>
-      <h1>Customer</h1>
-      <div className="flex flex-col">
+      <h1> test : {type}</h1>
+      <h2>{id}</h2>
+      {/* <div className="flex flex-col">
         {data &&
           data.data &&
-          data.data.map((shipment: any) => (
+          data.data.map((shipment: any) => (  
             <div key={shipment._id} className="border p-2 my-2">
               <p>Shipment ID: {shipment._id}</p>
               <p>Origin: {shipment.origin}</p>
@@ -57,7 +60,7 @@ export default function Customer() {
               </div>
             </div>
           ))}
-      </div>
+      </div> */}
       <ShipmentForm />
       <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
@@ -89,14 +92,27 @@ export default function Customer() {
                         scope="col"
                         className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Shipment
+                        Origin
                       </th>
                       <th
                         scope="col"
                         className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Date & Time
+                        Destination
                       </th>
+                      <th
+                        scope="col"
+                        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Order Date
+                      </th>
+                      <th
+                        scope="col"
+                        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        Expected Delivery Date
+                      </th>
+
                       <th
                         scope="col"
                         className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -121,11 +137,24 @@ export default function Customer() {
                         >
                           <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
                             {shipment.origin}
-                            Destination: {shipment.destination}
+                          </td>
+                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                            {shipment.destination}
                           </td>
                           <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                            {shipment.shipmentDate &&
+                            !isNaN(
+                              new Date(shipment.expectedDeliveryDate).getTime()
+                            )
+                              ? new Date(
+                                  shipment.shipmentDate
+                                ).toLocaleDateString()
+                              : "Not Available"}
+                          </td>
+
+                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
                             {new Date(
-                              shipment.expectedDeliveryDate
+                              shipment.shipmentDate
                             ).toLocaleDateString()}
                           </td>
                           <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">

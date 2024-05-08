@@ -6,66 +6,85 @@ import AuthService from "@/shared/services/authentication/authentication.service
 import AuthenticationSvcContext from "@/shared/services/authentication/authentication.context";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import ShipmentForm from "../Customer/shipmentForm.component";
 
 export default function Employee() {
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   const userId = authSvc.userId;
   console.log("authSvc", authSvc.userId);
-  
+  const id = authSvc.userId;
+  const type = authSvc.userType;
   const token = authSvc.token;
   console.log("Token", token);
-  
+
   const { data, isLoading, error } = useQuery(QUERY_KEYS.GET_SHIPMENTS, () =>
     QueryApi.getShipments(userId as string, token as string)
   );
   console.log("Data", data);
-  
-  if (isLoading) {
-    return <div>Loading shipments...</div>;
-  }
 
-  if (error) {
-    return <div>An error occurred: {error.toString()}</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading shipments...</div>;
+  // }
+
+  // if (error) {
+  //   return <div>An error occurred: {error.toString()}</div>;
+  // }
+
+  const updateStatus = async (shipmentId, newStatus) => {
+    try {
+      const response = await QueryApi.updateShipmentStatus(
+        shipmentId,
+        newStatus
+      );
+      console.log("Updated shipment status:", response);
+      // Optionally, refresh the data or handle UI updates here
+    } catch (error) {
+      console.error("Error updating shipment status:", error);
+      // Optionally, show an error message to the user
+    }
+  };
 
   return (
     <div>
-      <h1>Customer</h1>
-      <div className="flex flex-col">
-        {data &&
-          data.data &&
-          data.data.map((shipment: any) => (
-            <div key={shipment._id} className="border p-2 my-2">
-              <p>Shipment ID: {shipment._id}</p>
-              <p>Origin: {shipment.origin}</p>
-              <p>Destination: {shipment.destination}</p>
-              <p>Shipment Date: {shipment.shipmentDate}</p>
-              <p>Expected Delivery Date: {shipment.expectedDeliveryDate}</p>
-              <p>Status: {shipment.status}</p>
-              <div>
-                <h4>Items:</h4>
-                {shipment.Items && shipment.Items.length > 0 ? (
-                  shipment.Items.map((item: any) => (
-                    <div key={item._id} className="border p-1 my-1">
-                      <p>Item Name: {item.name}</p>
-                      <p>Quantity: {item.quantity}</p>
-                      <p>Is Sensitive: {item.isSensitive ? "Yes" : "No"}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p>No items in this shipment.</p>
-                )}
-              </div>
-            </div>
-          ))}
-      </div>
+      <h1>{type}</h1>
+      <h2>{id}</h2>
+      <ShipmentForm />
+
+      <tbody className="bg-white">
+        {data?.data?.map((shipment, index) => (
+          <tr
+            key={index}
+            className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
+          >
+            <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+              {shipment.origin} Destination: {shipment.destination}
+            </td>
+            <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+              {new Date(shipment.expectedDeliveryDate).toLocaleDateString()}
+            </td>
+            <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+              <select
+                value={shipment.status}
+                onChange={(e) => updateStatus(shipment._id, e.target.value)}
+                className="form-select block w-full mt-1"
+              >
+                <option value="Pending">Pending</option>
+                <option value="Packaging">Packaging</option>
+                <option value="Onway">Onway</option>
+                <option value="Failed">Failed</option>
+                <option value="Received">Received</option>
+              </select>
+            </td>
+          </tr>
+        ))}
+      </tbody>
       <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
           <div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               Latest Shipments
             </h3>
-            <span className="text-base font-normal text-gray-500">
+            <span className="text-base font-normal   text-gray-500">
               This is a list of latest transactions
             </span>
           </div>
