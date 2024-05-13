@@ -18,8 +18,8 @@ export default function Page() {
   console.log("User Type:", userType);
   const handleLogout = () => {
     authSvc.logout();
-  }
-  
+  };
+
   return (
     <>
       {/* <div className="bg-gray-900">
@@ -46,7 +46,7 @@ export default function Page() {
           >
             <main>
               <div>
-                <h1>Recognize the Data</h1>
+               
                 {userType === userEnum.CUSTOMER && <Customer />}
                 {userType === userEnum.EMPLOYEE && <Employee />}
                 {userType === userEnum.RECEIVER && <Receiver />}

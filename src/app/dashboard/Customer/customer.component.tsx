@@ -20,7 +20,7 @@ export default function Customer() {
     QueryApi.getShipments(userId as string, token as string)
   );
   console.log("data", data);
-console.log('userId :', authSvc)
+  console.log("userId :", authSvc);
   if (isLoading) {
     return <div>Loading shipments...</div>;
   }
@@ -31,8 +31,8 @@ console.log('userId :', authSvc)
 
   return (
     <div>
-      <h1>Customer</h1>
-      <div className="flex flex-col">
+      <h1 className="font-bold text-lg pl-10 pt-4">Customer</h1>
+      {/* <div className="flex flex-col">
         {data &&
           data.data &&
           data.data.map((shipment: any) => (
@@ -57,10 +57,13 @@ console.log('userId :', authSvc)
                   <p>No items in this shipment.</p>
                 )}
               </div>
+            ))}
             </div>
-          ))}
+      </div> */}
+      <div className="p-8">
+        <ShipmentForm />
       </div>
-      <ShipmentForm />
+
       <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
           <div>
@@ -117,7 +120,10 @@ console.log('userId :', authSvc)
                           }
                           key={index}
                           onClick={() =>
-                            router.push(`/dashboard/Customer/order/${shipment._id}`)                          }
+                            router.push(
+                              `/dashboard/Customer/order/${shipment._id}`
+                            )
+                          }
                           style={{ cursor: "pointer" }}
                         >
                           <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
