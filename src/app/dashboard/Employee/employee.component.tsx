@@ -30,54 +30,12 @@ export default function Employee() {
   //   return <div>An error occurred: {error.toString()}</div>;
   // }
 
-  const updateStatus = async (shipmentId, newStatus) => {
-    try {
-      const response = await QueryApi.updateShipmentStatus(
-        shipmentId,
-        newStatus
-      );
-      console.log("Updated shipment status:", response);
-      // Optionally, refresh the data or handle UI updates here
-    } catch (error) {
-      console.error("Error updating shipment status:", error);
-      // Optionally, show an error message to the user
-    }
-  };
 
   return (
     <div>
       <h1>{type}</h1>
       <h2>{id}</h2>
-      <ShipmentForm />
 
-      <tbody className="bg-white">
-        {data?.data?.map((shipment, index) => (
-          <tr
-            key={index}
-            className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-          >
-            <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-              {shipment.origin} Destination: {shipment.destination}
-            </td>
-            <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-              {new Date(shipment.expectedDeliveryDate).toLocaleDateString()}
-            </td>
-            <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-              <select
-                value={shipment.status}
-                onChange={(e) => updateStatus(shipment._id, e.target.value)}
-                className="form-select block w-full mt-1"
-              >
-                <option value="Pending">Pending</option>
-                <option value="Packaging">Packaging</option>
-                <option value="Onway">Onway</option>
-                <option value="Failed">Failed</option>
-                <option value="Received">Received</option>
-              </select>
-            </td>
-          </tr>
-        ))}
-      </tbody>
       <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
           <div>
@@ -134,7 +92,7 @@ export default function Employee() {
                           }
                           key={index}
                           onClick={() =>
-                            (window.location.href = `/dashboard/Customer/order/${shipment._id}`)
+                            (window.location.href = `/dashboard/Employee/order/${shipment._id}`)
                           }
                           style={{ cursor: "pointer" }}
                         >
@@ -143,10 +101,13 @@ export default function Employee() {
                             Destination: {shipment.destination}
                           </td>
                           <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                            {new Date(
-                              shipment.expectedDeliveryDate
-                            ).toLocaleDateString()}
+                            {shipment.expectedDeliveryDate
+                              ? new Date(
+                                  shipment.expectedDeliveryDate
+                                ).toLocaleDateString()
+                              : "Not Set"}
                           </td>
+
                           <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
                             {shipment.status}
                           </td>

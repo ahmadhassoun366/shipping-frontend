@@ -6,9 +6,10 @@ import { useContext } from "react";
 import AuthService from "@/shared/services/authentication/authentication.service";
 import AuthenticationSvcContext from "@/shared/services/authentication/authentication.context";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Customer() {
+  const router = useRouter();
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   const userId = authSvc.userId;
 
@@ -16,158 +17,114 @@ export default function Customer() {
   const id = authSvc?.userId;
   const type = authSvc?.userType;
 
+  // Use useQuery to fetch shipments
   const { data, isLoading, error } = useQuery(QUERY_KEYS.GET_SHIPMENTS, () =>
     QueryApi.getShipments(userId as string, token as string)
   );
-  console.log("Data", data);
-  const shipments = data?.data || [];
+
   if (isLoading) {
-    return <div>Loading shipments...</div>;
+    return (
+      <div>
+        <ShipmentForm />
+        <div>Loading shipments...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>An error occurred: {error.toString()}</div>;
+    return (
+      <div>
+        <ShipmentForm />
+        <div>An error occurred: {error.toString()}</div>
+      </div>
+    );
   }
+
+  const shipments = data?.data || [];
+
+  const formatDate = (date: any) => {
+    if (!date) return "Not Set"; // Return a placeholder or similar text
+    return new Date(date).toISOString().split("T")[0];
+  };
 
   return (
     <div>
-      <h1> test : {type}</h1>
-      <h2>{id}</h2>
-      {/* <div className="flex flex-col">
-        {data &&
-          data.data &&
-          data.data.map((shipment: any) => (  
-            <div key={shipment._id} className="border p-2 my-2">
-              <p>Shipment ID: {shipment._id}</p>
-              <p>Origin: {shipment.origin}</p>
-              <p>Destination: {shipment.destination}</p>
-              <p>Shipment Date: {shipment.shipmentDate}</p>
-              <p>Expected Delivery Date: {shipment.expectedDeliveryDate}</p>
-              <p>Status: {shipment.status}</p>
-              <div>
-                <h4>Items:</h4>
-                {shipment.Items && shipment.Items.length > 0 ? (
-                  shipment.Items.map((item: any) => (
-                    <div key={item._id} className="border p-1 my-1">
-                      <p>Item Name: {item.name}</p>
-                      <p>Quantity: {item.quantity}</p>
-                      <p>Is Sensitive: {item.isSensitive ? "Yes" : "No"}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p>No items in this shipment.</p>
-                )}
-              </div>
-            </div>
-          ))}
-      </div> */}
       <ShipmentForm />
+      <h1>User Type: {authSvc.userType}</h1>
+      <h2>User ID: {authSvc.userId}</h2>
       <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Latest Shipments
-            </h3>
-            <span className="text-base font-normal text-gray-500">
-              This is a list of latest transactions
-            </span>
-          </div>
-          <div className="flex-shrink-0">
-            <a
-              href="#"
-              className="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2"
-            >
-              View all
-            </a>
-          </div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">
+            Latest Shipments
+          </h3>
+          <a
+            href="#"
+            className="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg p-2"
+          >
+            View all
+          </a>
         </div>
-        <div className="flex flex-col mt-8">
-          <div className="overflow-x-auto rounded-lg">
-            <div className="align-middle inline-block min-w-full">
-              <div className="shadow overflow-hidden sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Origin
-                      </th>
-                      <th
-                        scope="col"
-                        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Destination
-                      </th>
-                      <th
-                        scope="col"
-                        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Order Date
-                      </th>
-                      <th
-                        scope="col"
-                        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Expected Delivery Date
-                      </th>
+        {shipments.length > 0 ? (
+          <div className="flex flex-col mt-8">
+            <div className="overflow-x-auto rounded-lg">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Origin
+                    </th>
+                    <th className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Destination
+                    </th>
+                    <th className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Order Date
+                    </th>
+                    <th className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Expected Delivery Date
+                    </th>
+                    <th className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white">
+                  {shipments.map((shipment: any, index: any) => (
+                    <tr
+                      key={index}
+                      onClick={() =>
+                        router.push(`/dashboard/Customer/order/${shipment._id}`)
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                        {shipment.origin}
+                      </td>
+                      <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
+                        {shipment.destination}
+                      </td>
+                      <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                        {new Date(shipment.shipmentDate).toLocaleDateString()}
+                      </td>
+                      <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
+                        {shipment.expectedDeliveryDate
+                          ? new Date(
+                              shipment.expectedDeliveryDate
+                            ).toLocaleDateString()
+                          : "Not Set"}
+                      </td>
 
-                      <th
-                        scope="col"
-                        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Status
-                      </th>
+                      <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                        {shipment.status}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="bg-white">
-                    {data &&
-                      data.data &&
-                      data.data.map((shipment: any, index: number) => (
-                        <tr
-                          className={
-                            index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                          }
-                          key={index}
-                          onClick={() =>
-                            (window.location.href = `/dashboard/Customer/order/${shipment._id}`)
-                          }
-                          style={{ cursor: "pointer" }}
-                        >
-                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                            {shipment.origin}
-                          </td>
-                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-900">
-                            {shipment.destination}
-                          </td>
-                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                            {shipment.shipmentDate &&
-                            !isNaN(
-                              new Date(shipment.expectedDeliveryDate).getTime()
-                            )
-                              ? new Date(
-                                  shipment.shipmentDate
-                                ).toLocaleDateString()
-                              : "Not Available"}
-                          </td>
-
-                          <td className="p-4 whitespace-nowrap text-sm font-normal text-gray-500">
-                            {new Date(
-                              shipment.shipmentDate
-                            ).toLocaleDateString()}
-                          </td>
-                          <td className="p-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                            {shipment.status}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
+        ) : (
+          <div>No shipments found.</div>
+        )}
       </div>
     </div>
   );

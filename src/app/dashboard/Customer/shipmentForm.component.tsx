@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
 import QueryApi from "@/shared/query-api";
@@ -7,7 +7,7 @@ import AuthService from "@/shared/services/authentication/authentication.service
 import AuthenticationSvcContext from "@/shared/services/authentication/authentication.context";
 import { useQuery } from "react-query";
 import QUERY_KEYS from "@/static/app.querykeys";
-
+import Modal from "./modal.component";
 // Yup validation schema
 const ShipmentSchema = Yup.object().shape({
   customer_id: Yup.string().required("Customer ID is required"),
@@ -41,7 +41,8 @@ const ShipmentForm = () => {
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   const token = authSvc.token;
   const id = authSvc?.userId;
-
+  const [showModal, setShowModal] = useState(false);
+  const [totalFee, setTotalFee] = useState(0);
   const {
     data: receivers,
     isLoading,
@@ -65,6 +66,7 @@ const ShipmentForm = () => {
           receiver_id: "",
           origin: "",
           destination: "",
+          expectedDeliveryDate: "",
           shipmentDate: formatDate(new Date()),
           warehouseID: "",
           items: [{ name: "", quantity: 1, isSensitive: false, type: "" }],
@@ -77,7 +79,10 @@ const ShipmentForm = () => {
             token as string
           );
           console.log("Create Shipment Response:", response);
-          
+          if (response.status === 201) {
+            setTotalFee(response.data.totalFee);
+            setShowModal(true);
+          }
           actions.setSubmitting(false);
         }}
       >
@@ -163,6 +168,17 @@ const ShipmentForm = () => {
           </Form>
         )}
       </Formik>
+      {showModal && (
+        <Modal onClose={() => setShowModal(false)}>
+          <div className="text-center">
+            <h2 className="text-lg">Total Fee: ${totalFee}</h2>
+            {/* message to tell the user to send the fee using OMT  */}
+            <h1>
+              Please send the total fee to the following OMT number: 71 123 456
+            </h1>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

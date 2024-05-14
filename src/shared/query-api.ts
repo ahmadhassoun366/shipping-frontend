@@ -60,10 +60,43 @@ const QueryApi = {
     });
     return res;
   },
-  getShipment: async function getShipment(shipmentId: string, token: string) {
+  getShipmentById: async function getShipmentById(
+    shipmentId: string,
+    token: string
+  ) {
     const res = await axios({
       method: "get",
-      url: api.Customer.getShipment(),
+      url: api.Customer.getShipmentById(shipmentId),
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
+
+  updateShipment: async function updateShipment(
+    shipmentId: string,
+    shipmentData: any,
+    token: string
+  ) {
+    const res = await axios({ 
+      method: "put",
+      url: api.Customer.updateShipment(shipmentId),
+      data: shipmentData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  },
+
+  deleteShipment: async function deleteShipment(
+    shipmentId: string,
+    token: string
+  ) {
+    const res = await axios({
+      method: "delete",
+      url: api.Customer.deleteShipment(shipmentId),
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -86,21 +119,28 @@ const QueryApi = {
     });
     return res;
   },
-  updateShipmentStatus: async function updateShipmentStatus(
-    newStatus: string,
-    token: string
+  updateShipmentStatus: async function (
+    shipmentId: any,
+    shipmentData: any,
+    token: any
   ) {
-    const res = await axios({
-      method: "post",
-      url: api.Employee.updateShipmentStatus(),
-      data: {
-        newStatus,
-      },
+    return axios({
+      method: "put",
+      url: api.Employee.updateShipmentStatus(shipmentId),
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      data: shipmentData,
     });
-    return res;
+  },
+  updateExpectedDeliveryDate: async function (shipmentId: any, newDate: any) {
+    return axios({
+      method: "put",
+      url: api.Employee.updateExpectedDeliveryDate(shipmentId), // Ensure apiBaseUrl is defined or correctly imported
+      data: {
+        newExpirationDate: newDate, // Key corrected as per your backend expectation
+      },
+    });
   },
 };
 

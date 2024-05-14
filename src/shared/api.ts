@@ -16,24 +16,31 @@ const api = {
     // "type": "Importer"}
     signup: () => `${_baseUrl}/signup`,
     signin: () => `${_baseUrl}/signin`,
-    // 
+    //
   },
 
   Customer: {
-    shipments: (userId:string) => `${_baseUrl}/getShipments?userId=${userId}`,
+    shipments: (userId: string) => `${_baseUrl}/getShipments?userId=${userId}`,
     createShipment: () => `${_baseUrl}/createShipment`,
-    getShipment: () => `${_baseUrl}/getShipment`,
+    deleteShipment: (shipmentId: any) =>
+      `${_baseUrl}/deleteShipment/${shipmentId}`,
+    updateShipment: (shipmentId: string) =>
+      `${_baseUrl}/updateShipment/${shipmentId}`,
+    getShipmentById: (shipmentId: any) =>
+      `${_baseUrl}/getShipment?id=${shipmentId}`,
   },
-  Receiver:{
+  Receiver: {
     createReceiver: () => `${_baseUrl}/createReceiver`,
     getReceiver: () => `${_baseUrl}/getReceiver`,
     getReceivers: () => `${_baseUrl}/getReceivers`,
   },
   Employee: {
-    updateShipmentStatus: () => `${_baseUrl}/updateStatus`,
+    updateShipmentStatus: (shipmentId: any) =>
+      `${_baseUrl}/updateStatus/${shipmentId}`,
+    updateExpectedDeliveryDate: (shipmentId: any) =>
+      `${_baseUrl}/updateExpectedDeliveryDate/${shipmentId}`,
   },
   getWarehouses: () => `${_baseUrl}/getWarehouses`,
-  
 };
 
 export default api;
