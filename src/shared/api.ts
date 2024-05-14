@@ -28,6 +28,9 @@ const api = {
       `${_baseUrl}/updateShipment/${shipmentId}`,
     getShipmentById: (shipmentId: any) =>
       `${_baseUrl}/getShipment?id=${shipmentId}`,
+    statistics: (userId: string) =>
+      `${_baseUrl}/statistics?userId=${userId}`,
+
   },
   Receiver: {
     createReceiver: () => `${_baseUrl}/createReceiver`,

@@ -37,12 +37,13 @@ export default class AuthService {
     if (typeof window !== "undefined") {
       localStorage.removeItem(tokenKey);
       localStorage.removeItem(userTypeKey);
-      localStorage.removeITem(userId);
+      localStorage.removeItem(userId);
     }
     this._token = null;
     this._userType = null;
     this._id = null;
   }
+  
 
   // Handle the actual login using external response data
   public async login(

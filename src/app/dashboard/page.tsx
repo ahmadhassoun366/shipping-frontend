@@ -14,7 +14,7 @@ import Receiver from "./Receiver/receiver.component";
 export default function Page() {
   const authSvc = useContext<AuthService>(AuthenticationSvcContext);
   console.log("Auth Service:", authSvc);
-  
+
   const userType = authSvc.userType;
   console.log("User Typeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee:", userType);
   const handleLogout = () => {
@@ -47,8 +47,6 @@ export default function Page() {
           >
             <main>
               <div>
-                <h1>{userType}</h1>
-                <h1>Recognize the Data</h1>
                 {userType === userEnum.CUSTOMER && <Customer />}
                 {userType === userEnum.EMPLOYEE && <Employee />}
                 {userType === userEnum.RECEIVER && <Receiver />}

@@ -142,6 +142,16 @@ const QueryApi = {
       },
     });
   },
+  //http://localhost:5000/statistics?userId=66409485f47229dc25c1e892
+  getStatistics: async function getStatistics(userId: string) {
+    const res = await axios({
+      method: "get",
+      url: api.Customer.statistics(userId),
+    });
+    return res;
+  },
+  
+
 };
 
 export default QueryApi;

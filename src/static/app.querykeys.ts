@@ -11,6 +11,7 @@ const QUERY_KEYS = {
   GET_SHIPMENT: "getShipment",
   GET_SHIPMENT_BY_ID: "getShipmentById",
   UPDATE_SHIPMENT: "updateShipment",
+  GET_STATISTICS: "getStatistics",
   // Receiver
 
   GET_RECEIVERS: "getReceivers",

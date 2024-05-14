@@ -21,6 +21,14 @@ export default function Customer() {
   const { data, isLoading, error } = useQuery(QUERY_KEYS.GET_SHIPMENTS, () =>
     QueryApi.getShipments(userId as string, token as string)
   );
+  const {
+    data: statistics,
+    isLoading: isStatisticsLoading,
+    error: statisticsError,
+  } = useQuery(QUERY_KEYS.GET_STATISTICS, () =>
+    QueryApi.getStatistics(userId as string)
+  );
+  console.log("statitics", statistics);
 
   if (isLoading) {
     return (
@@ -42,16 +50,59 @@ export default function Customer() {
 
   const shipments = data?.data || [];
 
-  const formatDate = (date: any) => {
-    if (!date) return "Not Set"; // Return a placeholder or similar text
-    return new Date(date).toISOString().split("T")[0];
-  };
-
   return (
     <div>
       <ShipmentForm />
-      <h1>User Type: {authSvc.userType}</h1>
-      <h2>User ID: {authSvc.userId}</h2>
+
+      {/* Statistics Section */}
+      <div className="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        {/* Total Shipments */}
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                {statistics?.data.totalShipments}
+              </span>
+              <h3 className="text-base font-normal text-gray-500">
+                Total Shipments
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        {/* Average Delivery Time */}
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                {statistics?.data.averageDeliveryTime.toFixed(2)}
+              </span>
+              <h3 className="text-base font-normal text-gray-500">
+                Average Delivery Time (days)
+              </h3>
+            </div>
+          </div>
+        </div>
+
+        {/* Shipments by Status */}
+        <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+          {Object.entries(statistics?.data.statusCounts || {}).map(
+            ([status, count]) => (
+              <div key={status} className="flex items-center">
+                <div className="flex-shrink-0">
+                  <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                    {count as string}
+                  </span>
+                  <h3 className="text-base font-normal text-gray-500">
+                    {status}
+                  </h3>
+                </div>
+              </div>
+            )
+          )}
+        </div>
+      </div>
+
       <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-xl font-bold text-gray-900 mb-2">
