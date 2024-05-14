@@ -58,8 +58,8 @@ const ShipmentForm = () => {
   };
 
   return (
-    <div>
-      <h1>Create Shipment</h1>
+    <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+      <h1 className="text-xl font-bold text-gray-900 mb-4">Create Shipment</h1>
       <Formik
         initialValues={{
           customer_id: id,
@@ -88,83 +88,98 @@ const ShipmentForm = () => {
       >
         {({ setFieldValue, values }) => (
           <Form>
-            <Field
-              as="select"
-              name="receiver_id"
-              onChange={(e: any) =>
-                setFieldValue("receiver_id", e.target.value)
-              }
-            >
-              <option value="">Select a Receiver</option>
-              {receivers &&
-                receivers.data.map((receiver: any) => (
-                  <option key={receiver._id} value={receiver._id}>
-                    {receiver.name}
-                  </option>
-                ))}
-            </Field>
-            <Field name="origin" type="text" placeholder="Origin" />
-            <Field name="destination" type="text" placeholder="Destination" />
-            <Field as="select" name="warehouseID">
-              <option value="">Select Warehouse</option>
-              {warehouses &&
-                warehouses.data.map((warehouse: any) => (
-                  <option key={warehouse._id} value={warehouse._id}>
-                    {warehouse.name}
-                  </option>
-                ))}
-            </Field>
-            <FieldArray name="items">
-              {({ insert, remove, push }) => (
-                <div>
-                  {values.items.length > 0 &&
-                    values.items.map((item, index) => (
-                      <div key={index}>
-                        <Field
-                          name={`items.${index}.name`}
-                          placeholder="Item Name"
-                        />
-                        <Field
-                          name={`items.${index}.quantity`}
-                          placeholder="Quantity"
-                          type="number"
-                        />
-                        <Field as="select" name={`items.${index}.type`}>
-                          <option value="">Select Type</option>
-                          <option value="Electronics">Electronics</option>
-                          <option value="Clothing">Clothing</option>
-                          <option value="Furniture">Furniture</option>
-                          <option value="Pharmaceuticals">
-                            Pharmaceuticals
-                          </option>
-                          <option value="Food">Food</option>
-                          <option value="Other">Other</option>
-                        </Field>
-                        <label>
-                          <Field
-                            name={`items.${index}.isSensitive`}
-                            type="checkbox"
-                          />
-                          Is Sensitive
-                        </label>
-                        <br />
-                        <button type="button" onClick={() => remove(index)}>
-                          Remove
-                        </button>
-                      </div>
+            <div className="mb-4 ">
+              <div className="flex gap-2">
+                <Field
+                  name="origin"
+                  type="text"
+                  placeholder="Origin"
+                  className="block w-full p-2 border border-gray-300 rounded-lg"
+                />
+                <Field
+                  name="destination"
+                  type="text"
+                  placeholder="Destination"
+                  className="block w-full p-2 border border-gray-300 rounded-lg"
+                />
+              </div>
+              <div className="flex gap-2">
+                <Field
+                  as="select"
+                  name="receiver_id"
+                  onChange={(e: any) =>
+                    setFieldValue("receiver_id", e.target.value)
+                  }
+                  className="block w-full p-2 border border-gray-300 rounded-lg"
+                >
+                  <option value="">Select a Receiver</option>
+                  {receivers &&
+                    receivers.data.map((receiver: any) => (
+                      <option key={receiver._id} value={receiver._id}>
+                        {receiver.name}
+                      </option>
                     ))}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      push({ name: "", quantity: 0, isSensitive: false })
-                    }
-                  >
-                    Add Item
-                  </button>
-                </div>
-              )}
-            </FieldArray>
-            <button type="submit">Submit Shipment</button>
+                </Field>
+
+                <Field
+                  as="select"
+                  name="warehouseID"
+                  className="block w-full p-2 border border-gray-300 rounded-lg"
+                >
+                  <option value="">Select Warehouse</option>
+                  {warehouses &&
+                    warehouses.data.map((warehouse: any) => (
+                      <option key={warehouse._id} value={warehouse._id}>
+                        {warehouse.name}
+                      </option>
+                    ))}
+                </Field>
+              </div>
+              <FieldArray name="items">
+                {({ insert, remove, push }) => (
+                  <div>
+                    {values.items.length > 0 &&
+                      values.items.map((item, index) => (
+                        <div key={index} className="mb-2">
+                          <div className="flex justify-between">
+                            <h1 className="text-xl font-bold text-gray-900 my-4">
+                              Add Item
+                            </h1>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                push({
+                                  name: "",
+                                  quantity: 0,
+                                  isSensitive: false,
+                                })
+                              }
+                              className=" rounded-lg"
+                            >
+                              + Add Item
+                            </button>
+                          </div>
+
+                          <br />
+                          <button
+                            type="button"
+                            onClick={() => remove(index)}
+                            className="p-1 text-red-500 hover:text-red-700"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </FieldArray>
+              <button
+                type="submit"
+                className="mt-4 p-2 bg-green-500 text-white rounded-lg"
+              >
+                Submit Shipment
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

@@ -10,6 +10,7 @@ import cta from "../../public/img/CTA.png";
 import bg2 from "../../public/img/bg2.png";
 import Footer from "./layout/footer/footer.component";
 import Link from "next/link";
+import { Heading1 } from "lucide-react";
 export default function Home() {
   const [relocationCount, setRelocationCount] = useState(0);
   const [clientsCount, setClientsCount] = useState(0);
@@ -108,9 +109,9 @@ export default function Home() {
                 <Link href="/blog">
                   <h1 className="px-4 py-2 hover:bg-gray-700 rounded">BLOG</h1>
                 </Link>
-                <Link href="/contact">
+                <Link href="/signin">
                   <h1 className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition-colors">
-                    CONTACT US
+                    Sign In
                   </h1>
                 </Link>
               </div>
@@ -131,15 +132,17 @@ export default function Home() {
                 So Easy
               </span>
             </h1>
-            <div className="space-x-2">
-              <button
-                className="text-white
+            <div className="">
+              <Link href="/signin" className="space-x-2 ">
+                <button
+                  className="text-white
               "
-              >
-                GET STARTED
-              </button>
-              {/* icon for left arrow  */}
-              <i className="fa-solid fa-arrow-right bg-red-500 p-2 rounded-full text-white"></i>
+                >
+                  GET STARTED
+                </button>
+                {/* icon for left arrow  */}
+                <i className="fa-solid fa-arrow-right bg-red-500 p-2 rounded-full text-white"></i>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col items-end w-2/4 space-y-10 mt-32">
@@ -483,7 +486,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <section className="bg-white dark:bg-gray-900 min-h-screen">
+      <section className="bg-white min-h-screen">
         <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md space-y-20">
           <div className="space-y-10">
             <div className=" space-x-4 flex items-center  justify-center">
@@ -508,7 +511,7 @@ export default function Home() {
                 <input
                   type="email"
                   id="email"
-                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   required
                 />
               </div>
@@ -519,7 +522,7 @@ export default function Home() {
                 <input
                   type="email"
                   id="email"
-                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   required
                 />
               </div>
@@ -532,7 +535,7 @@ export default function Home() {
                 <input
                   type="email"
                   id="email"
-                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   required
                 />
               </div>
@@ -543,7 +546,7 @@ export default function Home() {
                 <input
                   type="email"
                   id="email"
-                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   required
                 />
               </div>
@@ -554,7 +557,7 @@ export default function Home() {
               </label>
               <textarea
                 id="message"
-                className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                className="border-b border-gray-300 text-gray-900 text-sm  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
               ></textarea>
             </div>
             <div className="space-x-2  flex justify-end items-end">
@@ -565,7 +568,7 @@ export default function Home() {
                 Booking Now
               </button>
               {/* icon for left arrow  */}
-              <i className="fa-solid fa-arrow-right bg-red-500 p-2 rounded-full text-black"></i>
+              <i className="fa-solid fa-arrow-right bg-red-500 p-2 rounded-full text-white"></i>
             </div>
           </form>
         </div>

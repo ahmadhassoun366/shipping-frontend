@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import ROUTES from "@/static/router.data";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignUP() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function SignUP() {
       .required("Confirm password is required"),
     type: yup
       .string()
-      .oneOf(["Customer", "Receiver","Employee"], "Type is required")
+      .oneOf(["Customer", "Receiver", "Employee"], "Type is required")
       .required("You must select a type"),
   });
 
@@ -163,6 +164,7 @@ export default function SignUP() {
                   onBlur={formik.handleBlur}
                   className="w-full pl-2 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-gray-500"
                 >
+                  <option value="">Select Type</option>
                   <option value="Customer">Customer</option>
                   <option value="Receiver">Receiver</option>
                   <option value="Employee">Employee</option>
@@ -178,6 +180,15 @@ export default function SignUP() {
                 >
                   REGISTER NOW
                 </button>
+              </div>
+              {/* already have an account */}
+              <div className="text-center text-gray-500 mt-4">
+                <Link href="/signin">
+                  Already have an account?
+                  <button className="text-red-500 cursor-pointer">
+                    Sign In
+                  </button>
+                </Link>
               </div>
             </form>
           </div>

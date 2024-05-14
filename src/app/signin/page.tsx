@@ -37,9 +37,13 @@ export default function SignIn() {
         // Assuming the response contains the token and user type necessary for session management
         if (response && response.data.token && response.data.type) {
           // Step 2: Use AuthService to manage session with the received token
-          authService.login(response.data.token, response.data.type, response.data.id);
+          authService.login(
+            response.data.token,
+            response.data.type,
+            response.data.id
+          );
           console.log("authSvc", authService.userId);
-          
+
           // Optional: Log success or perform additional tasks
           console.log("Sign in Success:", response);
           toast.success("Signed in successfully!", {
@@ -158,6 +162,18 @@ export default function SignIn() {
                   >
                     SIGN IN NOW
                   </button>
+                  {/* already have an account */}
+                  <div className="text-center mt-6">
+                    <p className="text-gray-600">
+                      Don&apos;t have an account?{" "}
+                      <a
+                        href="/signup"
+                        className="text-gray-800 font-bold hover:text-red-500"
+                      >
+                        Sign up
+                      </a>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

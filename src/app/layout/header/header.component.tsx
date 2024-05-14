@@ -47,9 +47,9 @@ export default function HeaderComponent() {
             <Link href="/blog">
               <h1 className="px-4 py-2 hover:bg-gray-700 rounded">BLOG</h1>
             </Link>
-            <Link href="/contact">
+            <Link href="/signin">
               <h1 className="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition-colors">
-                CONTACT US
+                Sign in
               </h1>
             </Link>
           </div>
