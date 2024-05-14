@@ -19,8 +19,8 @@ export default function Page() {
   console.log("User Typeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee:", userType);
   const handleLogout = () => {
     authSvc.logout();
-  }
-  
+  };
+
   return (
     <>
       {/* <div className="bg-gray-900">
