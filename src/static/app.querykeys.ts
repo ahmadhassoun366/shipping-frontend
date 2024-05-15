@@ -13,9 +13,10 @@ const QUERY_KEYS = {
   UPDATE_SHIPMENT: "updateShipment",
   GET_STATISTICS: "getStatistics",
   // Receiver
-
+  //Employee
+  GET_SHIPMENTS_EMPLOYEE: "getShipmentsEmployee",
   GET_RECEIVERS: "getReceivers",
-  
+
   // Warehouse
   GET_WAREHOUSES: "getWarehouses",
 };

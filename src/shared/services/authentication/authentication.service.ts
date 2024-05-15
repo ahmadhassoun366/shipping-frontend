@@ -29,6 +29,7 @@ export default class AuthService {
       localStorage.setItem(userId, id);
       this._token = token;
       this._userType = userType;
+      this._id = id;
     }
   }
 
@@ -43,7 +44,6 @@ export default class AuthService {
     this._userType = null;
     this._id = null;
   }
-  
 
   // Handle the actual login using external response data
   public async login(

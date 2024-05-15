@@ -79,7 +79,7 @@ const QueryApi = {
     shipmentData: any,
     token: string
   ) {
-    const res = await axios({ 
+    const res = await axios({
       method: "put",
       url: api.Customer.updateShipment(shipmentId),
       data: shipmentData,
@@ -150,8 +150,15 @@ const QueryApi = {
     });
     return res;
   },
-  
-
+  getShipmentsEmployee: async function getShipmentsEmployee(
+    employeeId: string
+  ) {
+    const res = await axios({
+      method: "get",
+      url: api.Employee.getShipmentsEmployee(employeeId),
+    });
+    return res;
+  },
 };
 
 export default QueryApi;

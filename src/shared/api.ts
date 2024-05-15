@@ -28,9 +28,7 @@ const api = {
       `${_baseUrl}/updateShipment/${shipmentId}`,
     getShipmentById: (shipmentId: any) =>
       `${_baseUrl}/getShipment?id=${shipmentId}`,
-    statistics: (userId: string) =>
-      `${_baseUrl}/statistics?userId=${userId}`,
-
+    statistics: (userId: string) => `${_baseUrl}/statistics?userId=${userId}`,
   },
   Receiver: {
     createReceiver: () => `${_baseUrl}/createReceiver`,
@@ -42,6 +40,9 @@ const api = {
       `${_baseUrl}/updateStatus/${shipmentId}`,
     updateExpectedDeliveryDate: (shipmentId: any) =>
       `${_baseUrl}/updateExpectedDeliveryDate/${shipmentId}`,
+    // http://localhost:5000/shipments/employee-warehouse?employeeId=6644a58993d860f00ea53cc0
+    getShipmentsEmployee: (employeeId: string) =>
+      `${_baseUrl}/shipments/employee-warehouse?employeeId=${employeeId}`,
   },
   getWarehouses: () => `${_baseUrl}/getWarehouses`,
 };

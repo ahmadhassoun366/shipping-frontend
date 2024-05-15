@@ -35,8 +35,10 @@ export default function SignIn() {
         console.log("Sign in Response:", response);
 
         // Assuming the response contains the token and user type necessary for session management
-        if (response && response.data.token && response.data.type) {
+        if (response && response.data && response.data.token && response.data.type && response.data.id) {
           // Step 2: Use AuthService to manage session with the received token
+          console.log("Iddddddddd", response.data.id);
+          
           authService.login(
             response.data.token,
             response.data.type,
