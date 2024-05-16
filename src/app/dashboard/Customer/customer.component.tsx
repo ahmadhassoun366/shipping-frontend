@@ -159,7 +159,7 @@ export default function Customer() {
         </div>
       </div>
 
-      <div className="mb-4 flex items-center justify-between">
+      <div className="px-10 py-5 mb-4 flex items-center justify-between">
         <div>
           <h3 className="text-xl font-bold text-gray-900 mb-2">
             Latest Shipments
@@ -201,7 +201,7 @@ export default function Customer() {
                         key={index}
                         className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
                         onClick={() =>
-                          (window.location.href = `/dashboard/Employee/order/${shipment._id}`)
+                          (window.location.href = `/dashboard/Customer/order/${shipment._id}`)
                         }
                         style={{ cursor: "pointer" }}
                       >

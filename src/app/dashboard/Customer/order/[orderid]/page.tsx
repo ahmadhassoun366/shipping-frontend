@@ -9,6 +9,8 @@ import { useMutation, useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/static/router.data";
+import Navbar from "@/components/internal/navbar/navbar.component";
+import SideBar from "@/components/internal/sideBar/sideBar.component";
 export default function OrderPage({ params }: { params: any }) {
   const { orderid } = params;
 
@@ -30,7 +32,7 @@ export default function OrderPage({ params }: { params: any }) {
           position: "top-right",
           theme: "dark",
         });
-        
+
         // Step 3: Redirect to dashboard or another route
         router.push(ROUTES.dashboard);
       } catch (error) {
@@ -51,24 +53,76 @@ export default function OrderPage({ params }: { params: any }) {
   }
   const shipment = data?.data || [];
   return (
-    <div className="bg-gray-700 text-white p-4">
-      <h1 className="text-xl font-bold">Order Details</h1>
-      {/* Display the orderId from the query */}
-
-      <div className="border p-2 my-2">
-        <p>Destination: {shipment.destination}</p>
-        <p>Shipment Date: {shipment.shipmentDate}</p>
-        <p>Expected Delivery Date: {shipment.expectedDeliveryDate}</p>
-        <p>Status: {shipment.status}</p>
-        {/* Render other shipment details as needed */}
-      </div>
-      <div>
-        <button
-          onClick={handleDelete}
-          className="bg-red-500 hover:bg-red-700 text-white rounded-md py-1.5 px-4 "
-        >
-          Delete
-        </button>
+    <div>
+      <Navbar />
+      <div className="flex overflow-hidden bg-white pt-16">
+        <SideBar />
+        <div
+          className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"
+          id="sidebarBackdrop"
+        ></div>
+        <div id="main-content" className="flex-1 p-8">
+          <main className="max-w-3xl mx-auto bg-white rounded-lg shadow overflow-hidden">
+            <div className="p-6 border-b border-gray-200">
+              <h1 className="text-2xl font-bold text-gray-900">
+                Order Details
+              </h1>
+            </div>
+            <div className="p-6 space-y-4">
+              <p>
+                <strong>Order ID:</strong> {orderid}
+              </p>
+              <p>
+                <strong>Destination:</strong> {shipment.destination}
+              </p>
+              <p>
+                <strong>Shipment Date:</strong>{" "}
+                {new Date(shipment.shipmentDate).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Expected Delivery Date:</strong>{" "}
+                {new Date(shipment.expectedDeliveryDate).toLocaleDateString()}
+              </p>
+              <p>
+                <strong>Status:</strong> {shipment.status}
+              </p>
+              <p>
+                <strong>Origin:</strong> {shipment.origin}
+              </p>
+              <p>
+                <strong>Receiver ID:</strong> {shipment.receiver_id}
+              </p>
+              <p>
+                <strong>Warehouse ID:</strong> {shipment.warehouseID}
+              </p>
+              {shipment.Items?.map((item: any, index: any) => (
+                <div key={index} className="bg-gray-100 p-4 rounded-lg">
+                  <p>
+                    <strong>Item Name:</strong> {item.name}
+                  </p>
+                  <p>
+                    <strong>Quantity:</strong> {item.quantity}
+                  </p>
+                  <p>
+                    <strong>Type:</strong> {item.type}
+                  </p>
+                  <p>
+                    <strong>Is Sensitive:</strong>{" "}
+                    {item.isSensitive ? "Yes" : "No"}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="p-6 border-t border-gray-200 text-right">
+              <button
+                onClick={handleDelete}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out"
+              >
+                Delete Shipment
+              </button>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );

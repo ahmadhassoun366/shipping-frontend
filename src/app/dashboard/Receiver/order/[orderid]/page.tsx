@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/internal/navbar/navbar.component";
+import SideBar from "@/components/internal/sideBar/sideBar.component";
 import QueryApi from "@/shared/query-api";
 import AuthenticationSvcContext from "@/shared/services/authentication/authentication.context";
 import AuthService from "@/shared/services/authentication/authentication.service";
@@ -51,29 +53,38 @@ export default function OrderPage({ params }: { params: any }) {
   const shipment = data?.data || [];
 
   return (
-    <div className="bg-gray-700 text-white p-4">
-      <h1 className="text-xl font-bold">Order Details</h1>
-      <div className="border p-2 my-2">
-        <p>Destination: {shipment.destination}</p>
-        <p>
-          Shipment Date: {new Date(shipment.shipmentDate).toLocaleDateString()}
-        </p>
-        <p>
-          Expected Delivery Date:{" "}
-          {new Date(shipment.expectedDeliveryDate).toLocaleDateString()}
-        </p>
-        <p>Status: {shipment.status}</p>
-        <select
-          value={shipment.status}
-          onChange={(e) => handleChangeStatus(e.target.value)}
-          className="form-select block w-full mt-1"
-        >
-          <option value="Pending">Pending</option>
-          <option value="Packaging">Packaging</option>
-          <option value="Onway">Onway</option>
-          <option value="Failed">Failed</option>
-          <option value="Received">Received</option>
-        </select>
+    <div>
+      <Navbar />
+      <div className="flex overflow-hidden bg-white pt-16">
+        <SideBar />
+        <div className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
+        <div id="main-content" className="flex-1 p-8">
+          <main className="max-w-4xl mx-auto bg-white rounded-lg shadow overflow-hidden">
+            <h1 className="text-2xl font-bold text-gray-900 p-6 border-b border-gray-200">Order Details</h1>
+            <div className="p-6 space-y-4 bg-gray-100 rounded-lg">
+              <p><strong>Order ID:</strong> {orderid}</p>
+              <p><strong>Destination:</strong> {shipment.destination}</p>
+              <p><strong>Shipment Date:</strong> {new Date(shipment.shipmentDate).toLocaleDateString()}</p>
+              <p><strong>Expected Delivery Date:</strong> {new Date(shipment.expectedDeliveryDate).toLocaleDateString()}</p>
+              <p><strong>Status:</strong> {shipment.status}</p>
+              <p><strong>Origin:</strong> {shipment.origin}</p>
+              <p><strong>Receiver ID:</strong> {shipment.receiver_id}</p>
+              <p><strong>Warehouse ID:</strong> {shipment.warehouseID}</p>
+              <div className="space-x-2 mt-4">
+                {["Received"].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => handleChangeStatus(s)}
+                    className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${s === shipment.status ? "opacity-50 cursor-not-allowed" : ""}`}
+                    disabled={s === shipment.status}
+                  >
+                    Set {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </main>
+        </div>
       </div>
     </div>
   );

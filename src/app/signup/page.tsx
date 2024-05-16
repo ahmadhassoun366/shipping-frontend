@@ -167,7 +167,6 @@ export default function SignUP() {
                   <option value="">Select Type</option>
                   <option value="Customer">Customer</option>
                   <option value="Receiver">Receiver</option>
-                  <option value="Employee">Employee</option>
                 </select>
                 {formik.touched.type && formik.errors.type && (
                   <div className="text-red-500">{formik.errors.type}</div>
