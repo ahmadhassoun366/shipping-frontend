@@ -1,7 +1,7 @@
 import Employee from "@/app/dashboard/Employee/employee.component";
 import Receiver from "@/app/dashboard/Receiver/receiver.component";
 
-const _baseUrl = "http://localhost:5000";
+const _baseUrl = "https://shipmment-backend.vercel.app";
 const api = {
   baseUrl: _baseUrl,
 

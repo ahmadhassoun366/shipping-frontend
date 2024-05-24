@@ -481,7 +481,7 @@ export default function Home() {
             >
               Call Us now
             </button>
-            {/* icon for left arrow  */}
+            {/* icon for left arrow  */}  
             <i className="fa-solid fa-arrow-right bg-red-500 p-2 rounded-full text-white"></i>
           </div>
         </div>
